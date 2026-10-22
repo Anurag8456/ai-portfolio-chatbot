@@ -1,6 +1,6 @@
 package com.portfoliochatbot.backend.service;
 
-import org.apache.pdfbox.Loader; // Added for PDFBox 3.x
+import org.apache.pdfbox.Loader;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
@@ -22,17 +22,16 @@ public class ResumeParserService {
      */
     public String extractText(MultipartFile file) throws IOException {
         String originalFilename = file.getOriginalFilename();
-        if (originalFilename == null) {
+        if (originalFilename == null || originalFilename.trim().isEmpty()) {
             throw new IllegalArgumentException("File must have a name");
         }
 
         String lowerCaseName = originalFilename.toLowerCase();
 
-        // Using try-with-resources cleans up the IntelliJ warning and auto-closes the stream
         try (InputStream inputStream = file.getInputStream()) {
             if (lowerCaseName.endsWith(".pdf")) {
                 return extractTextFromPdf(inputStream);
-            } else if (lowerCaseName.endsWith(".docx") || lowerCaseName.endsWith(".doc")) {
+            } else if (lowerCaseName.endsWith(".docx")) {
                 return extractTextFromDocx(inputStream);
             } else {
                 throw new IllegalArgumentException("Unsupported file format. Only PDF and DOCX are supported.");
@@ -41,7 +40,6 @@ public class ResumeParserService {
     }
 
     private String extractTextFromPdf(InputStream inputStream) throws IOException {
-        // Updated to use Loader.loadPDF for PDFBox 3.x compatibility
         try (PDDocument document = Loader.loadPDF(inputStream.readAllBytes())) {
             PDFTextStripper stripper = new PDFTextStripper();
             return stripper.getText(document);

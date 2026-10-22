@@ -42,6 +42,7 @@
   bin/
   *.tmp
   *.bak
+  powershell.cmd
 
   # Windows
   Thumbs.db

@@ -1,0 +1,5 @@
+com\portfoliochatbot\backend\BackendApplicationTests.class
+com\portfoliochatbot\backend\ChatbotServiceTest.class
+com\portfoliochatbot\backend\ResumeParserServiceTest.class
+com\portfoliochatbot\backend\JobDescriptionParserServiceTest.class
+com\portfoliochatbot\backend\ChatControllerTest.class
